@@ -6,8 +6,7 @@
 #include <QDebug>
 #include <QMessageBox>
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -88,33 +87,32 @@ QByteArray MainWindow::inttoByteArray(int givenNumber){
 QByteArray MainWindow::compressedFileName_sz(QByteArray compressedFileName){
 
 
-    quint16 sayi = compressedFileName.size();
+    quint16 number = compressedFileName.size();
 
-    QByteArray sayiarrayi = quint16toByteArray(sayi);
+    QByteArray numberArray = quint16toByteArray(number);
 
-    return sayiarrayi;
+    return numberArray;
 
 }
 QByteArray MainWindow::compressedFile_sz(QByteArray compressedFile){
 
 
-    int sayi = compressedFile.size();
+    int number = compressedFile.size();
 
-    QByteArray sayiarrayi = inttoByteArray(sayi);
+    QByteArray numberArray = inttoByteArray(number);
 
-    return sayiarrayi;
+    return numberArray;
 
 }
 quint16  MainWindow::byteArraytoquint16(QByteArray inputData){
 
-    quint16  cikti;
-    memcpy(&cikti, inputData.data(), 2);
+    quint16  output;
+    memcpy(&output, inputData.data(), 2);
 
-    return cikti;
+    return output;
 
 }
 quint16 MainWindow::numberofFileDecoder(QString obcFilePath){
-
 
     QFile file(obcFilePath);
     file.open(QIODevice::ReadOnly);
@@ -127,17 +125,13 @@ quint16 MainWindow::numberofFileDecoder(QString obcFilePath){
 
     return numberofFile;
 
-
-
-
-
 }
 int  MainWindow::byteArraytoint(QByteArray inputData){
 
-    int  cikti;
-    memcpy(&cikti, inputData.data(), 4);
+    int  output;
+    memcpy(&output, inputData.data(), 4);
 
-    return cikti;
+    return output;
 
 }
 QByteArray MainWindow::partReader(QString filePath,int startingPoint, int size ){
@@ -158,10 +152,6 @@ quint16 MainWindow::fileNameSizeDecoder(QString obcFilePath,int startingPoint, i
     quint16  numberofFile = byteArraytoquint16(temp);
 
     return numberofFile;
-
-
-
-
 
 }
 QString MainWindow::fileNameDecoder(QString obcFilePath,int startingPoint, int size){
@@ -184,15 +174,15 @@ QByteArray MainWindow::fileDecoder(QString obcFilePath,int startingPoint, int si
 }
 
 
-
-void MainWindow::on_addFileButton_clicked()   //Add File
+//Create Tab
+void MainWindow::on_addFileButton_clicked()   //Add File at Create Tab
 {
     QStringList file_names = QFileDialog::getOpenFileNames(this, "Open a file", QDir::homePath());
     ui->listWidget->addItems(file_names);
 
 }
 
-void MainWindow::on_removeFileButton_clicked()  //Remove File
+void MainWindow::on_removeFileButton_clicked()  //Remove File at Create Tab
 {
 
     QList <QListWidgetItem*> items = ui->listWidget->selectedItems();
@@ -204,7 +194,7 @@ void MainWindow::on_removeFileButton_clicked()  //Remove File
 
 }
 
-void MainWindow::on_createButton_clicked() //Create OBC File
+void MainWindow::on_createButton_clicked() //Create OBC File at Create Tab
 {
 
     quint16 numberofFile = ui->listWidget->count();
@@ -249,8 +239,8 @@ void MainWindow::on_createButton_clicked() //Create OBC File
         obcFile.close();
     }
 }
-
-void MainWindow::on_openFileButton_clicked(){  //open obc file
+//Extract
+void MainWindow::on_openFileButton_clicked(){  //open obc file at Extract Tab
 
 
     filePathforopen = QFileDialog::getOpenFileName(this, "Open a file", QDir::homePath(),"OBC Files (*.obc)");
@@ -278,7 +268,7 @@ void MainWindow::on_openFileButton_clicked(){  //open obc file
 
 }
 
-void MainWindow::on_extractButton_clicked()  //extract
+void MainWindow::on_extractButton_clicked()  //extract at Extract Tab
 {
     int index = ui->listWidget_5->currentRow();
     if(index > -1){
@@ -297,7 +287,7 @@ void MainWindow::on_extractButton_clicked()  //extract
     }
 }
 
-void MainWindow::on_extractAllButton_clicked()  //extract all
+void MainWindow::on_extractAllButton_clicked()  //extract all at Extract Tab
 {
     QString extractPath = QFileDialog::getExistingDirectory(this,"Extracting location",QDir::homePath());
     quint16 numberofFile = numberofFileDecoder(filePathforopen);
